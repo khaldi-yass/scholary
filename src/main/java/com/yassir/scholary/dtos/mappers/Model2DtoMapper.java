@@ -5,12 +5,11 @@ import com.yassir.scholary.models.UserModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.WARN)
 public interface Model2DtoMapper {
-
-    Model2DtoMapper INSTANCE = Mappers.getMapper(Model2DtoMapper.class);
 
     @Mapping(target = "profilePicture.url", source = "userDto.profilePictureUrl")
     UserModel toUserModel(UserDto userDto);
@@ -18,4 +17,7 @@ public interface Model2DtoMapper {
     @Mapping(target = "profilePictureUrl", source = "userModel.profilePicture.url")
     UserDto toUserDto(UserModel userModel);
 
+    List<UserModel> toUserModelList(List<UserDto> userDtoList);
+
+    List<UserDto> toUserDtoList(List<UserModel> userModelList);
 }

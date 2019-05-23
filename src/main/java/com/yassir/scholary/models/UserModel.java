@@ -17,7 +17,7 @@ import java.util.Set;
  * A UserModel.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
 class UserModel implements Serializable {
@@ -33,7 +33,7 @@ class UserModel implements Serializable {
     private String username;
 
     @NotNull
-    @Column(name = "jhi_password", nullable = false)
+    @Column(name = "psswd", nullable = false)
     private String password;
 
     @NotNull

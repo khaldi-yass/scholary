@@ -12,7 +12,7 @@ public interface UserService {
 
     UserModel createUser(UserModel userModel);
 
-    UserModel updateUser(UserModel userModel);
+    UserModel updateUser(UserModel userModel, long id);
 
     UserModel deleteUser(Long id);
 

@@ -1,4 +1,4 @@
-package com.yassir.scholary.services;
+package com.yassir.scholary.services.impl;
 
 import com.google.common.collect.Lists;
 import com.yassir.scholary.daos.UserDao;
@@ -6,6 +6,7 @@ import com.yassir.scholary.exceptions.IllegalOperationException;
 import com.yassir.scholary.exceptions.NotFoundException;
 import com.yassir.scholary.models.MediaModel;
 import com.yassir.scholary.models.UserModel;
+import com.yassir.scholary.services.UserService;
 import com.yassir.scholary.utils.LogUtils;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    UserDao userDao;
+    private UserDao userDao;
 
     public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
@@ -40,8 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel updateUser(UserModel userModel) {
-        long id = userModel.getId();
+    public UserModel updateUser(UserModel userModel, long id) {
         return userDao.findById(id).map(emp -> userDao.save(userModel)).orElseGet(() -> errorNotFound(id));
     }
 
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserModel errorNotFound(Long id) {
-        throw new NotFoundException(getClass(), getClass().getSimpleName(), id.toString());
+        throw new NotFoundException(getClass(), "User", id.toString());
     }
 
     private UserModel errorAlreadyExists(Long id) {
