@@ -9,13 +9,13 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * A MimeTypeModel.
+ * A GeneralLevelModel.
  */
 @Entity
-@Table(name = "mime_type")
+@Table(name = "general_level")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class MimeTypeModel implements Serializable {
+class GeneralLevelModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,14 +26,6 @@ class MimeTypeModel implements Serializable {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-
-    @NotNull
-    @Column(name = "code", nullable = false)
-    private String code;
-
-    @NotNull
-    @Column(name = "file_extension", nullable = false)
-    private String fileExtension;
 
     @OneToOne
     @JoinColumn(unique = true)

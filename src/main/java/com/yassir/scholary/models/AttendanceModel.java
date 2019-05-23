@@ -1,21 +1,21 @@
 package com.yassir.scholary.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * A MimeTypeModel.
+ * A AttendanceModel.
  */
 @Entity
-@Table(name = "mime_type")
+@Table(name = "attendance")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class MimeTypeModel implements Serializable {
+class AttendanceModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,20 +23,22 @@ class MimeTypeModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "attended")
+    private Boolean attended;
 
-    @NotNull
-    @Column(name = "code", nullable = false)
-    private String code;
-
-    @NotNull
-    @Column(name = "file_extension", nullable = false)
-    private String fileExtension;
+    @Column(name = "remarks")
+    private String remarks;
 
     @OneToOne
     @JoinColumn(unique = true)
     private ItemModel pItemModel;
+
+    @ManyToOne
+    @JsonIgnoreProperties("")
+    private UserModel userModel;
+
+    @ManyToOne
+    @JsonIgnoreProperties("")
+    private EventModel eventModel;
 
 }

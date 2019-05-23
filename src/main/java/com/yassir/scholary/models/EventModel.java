@@ -5,17 +5,17 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
- * A MimeTypeModel.
+ * A EventModel.
  */
 @Entity
-@Table(name = "mime_type")
+@Table(name = "event")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class MimeTypeModel implements Serializable {
+class EventModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,17 +23,11 @@ class MimeTypeModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "start_date_time")
+    private LocalDate startDateTime;
 
-    @NotNull
-    @Column(name = "code", nullable = false)
-    private String code;
-
-    @NotNull
-    @Column(name = "file_extension", nullable = false)
-    private String fileExtension;
+    @Column(name = "end_date_time")
+    private LocalDate endDateTime;
 
     @OneToOne
     @JoinColumn(unique = true)

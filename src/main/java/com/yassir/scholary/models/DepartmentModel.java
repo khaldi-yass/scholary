@@ -7,15 +7,18 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * A MimeTypeModel.
+ * A DepartmentModel.
  */
 @Entity
-@Table(name = "mime_type")
+@Table(name = "department")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class MimeTypeModel implements Serializable {
+class DepartmentModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,16 +30,21 @@ class MimeTypeModel implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
-    @Column(name = "code", nullable = false)
-    private String code;
+    @Column(name = "inauguration_date")
+    private LocalDate inaugurationDate;
 
-    @NotNull
-    @Column(name = "file_extension", nullable = false)
-    private String fileExtension;
+    @Column(name = "budget")
+    private Integer budget;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private EmployeeModel chiefOfDepartment;
 
     @OneToOne
     @JoinColumn(unique = true)
     private ItemModel pItemModel;
 
+    @OneToMany(mappedBy = "departmentModel")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<FieldOfStudyModel> fieldsOfStudies = new HashSet<>();
 }
