@@ -1,20 +1,20 @@
 package com.yassir.scholary.services;
 
-import com.yassir.scholary.models.UserModel;
+import com.yassir.scholary.dtos.UserDto;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<UserModel> findAllUsers();
+    List<UserDto> findAll();
 
-    UserModel findUserById(Long id);
+    UserDto findById(Long id);
 
-    UserModel createUser(UserModel userModel);
+    void create(UserDto userDto);
 
-    UserModel updateUser(UserModel userModel, long id);
+    void update(UserDto userDto, long id);
 
-    UserModel deleteUser(Long id);
+    void delete(Long id);
 
     void generateDummyData(int x);
 

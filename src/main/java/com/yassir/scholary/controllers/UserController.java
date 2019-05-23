@@ -13,19 +13,19 @@ public interface UserController {
     String rootPath();
 
     @GetMapping("/users")
-    List<UserDto> findAllUsers();
+    List<UserDto> findAll();
 
     @GetMapping("/users/{id}")
-    UserDto findUserById(@PathVariable("id") Long id);
+    UserDto findById(@PathVariable("id") Long id);
 
     @PostMapping(value = "/users")
-    UserDto createUser(@RequestBody UserDto userDto);
+    ResponseEntity create(@RequestBody UserDto userDto);
 
     @PutMapping(value = "/users/{id}")
-    UserDto updateUser(@RequestBody UserDto userDto, @PathVariable("id") Long id);
+    ResponseEntity update(@RequestBody UserDto userDto, @PathVariable("id") Long id);
 
     @DeleteMapping(value = "/users/{id}")
-    ResponseEntity deleteUser(@PathVariable("id") Long id);
+    ResponseEntity delete(@PathVariable("id") Long id);
 
     @GetMapping("/consumeUsers")
     String consume();

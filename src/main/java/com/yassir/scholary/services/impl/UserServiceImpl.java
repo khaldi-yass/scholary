@@ -2,22 +2,28 @@ package com.yassir.scholary.services.impl;
 
 import com.google.common.collect.Lists;
 import com.yassir.scholary.daos.UserDao;
+import com.yassir.scholary.dtos.UserDto;
+import com.yassir.scholary.dtos.mappers.Model2DtoMapper;
 import com.yassir.scholary.exceptions.IllegalOperationException;
 import com.yassir.scholary.exceptions.NotFoundException;
 import com.yassir.scholary.models.MediaModel;
 import com.yassir.scholary.models.UserModel;
 import com.yassir.scholary.services.UserService;
 import com.yassir.scholary.utils.LogUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
+    private Model2DtoMapper mapper;
     private UserDao userDao;
 
     public UserServiceImpl(UserDao userDao) {
@@ -25,32 +31,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserModel> findAllUsers() {
-        return Lists.newArrayList(userDao.findAll());
+    public List<UserDto> findAll() {
+        return mapper.toUserDtoList(Lists.newArrayList(userDao.findAll()));
     }
 
     @Override
-    public UserModel findUserById(Long id) {
-        return userDao.findById(id).orElseGet(() -> errorNotFound(id));
+    public UserDto findById(Long id) {
+        return mapper.toUserDto(userDao.findById(id).orElseGet(() -> errorNotFound(id)));
     }
 
     @Override
-    public UserModel createUser(UserModel userModel) {
-        long id = userModel.getId();
-        return userDao.findById(id).map(emp -> errorAlreadyExists(id)).orElseGet(() -> userDao.save(userModel));
+    public void create(UserDto userDto) {
+        // TODO check if username|email already exists : throw exception
+        //return userDao.findById(id).map(emp -> errorAlreadyExists(id)).orElseGet(() -> userDao.save(userModel));
+        userDao.save(mapper.toUserModel(userDto));
     }
 
     @Override
-    public UserModel updateUser(UserModel userModel, long id) {
-        return userDao.findById(id).map(emp -> userDao.save(userModel)).orElseGet(() -> errorNotFound(id));
+    public void update(UserDto userDto, long id) {
+        UserModel userModel = mapper.toUserModel(userDto);
+        userDao.findById(id).map(usr -> userDao.save(userModel)).orElseGet(() -> errorNotFound(id));
     }
 
     @Override
-    public UserModel deleteUser(Long id) {
-        return userDao.findById(id).map(emp -> {
-            userDao.deleteById(id);
-            return new UserModel();
-        }).orElseGet(() -> errorNotFound(id));
+    public void delete(Long id) {
+        Optional<UserModel> opt = userDao.findById(id);
+        if (!opt.isPresent()) {
+            errorNotFound(id);
+        }
+        userDao.deleteById(id);
     }
 
     private UserModel errorNotFound(Long id) {

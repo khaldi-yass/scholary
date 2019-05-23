@@ -1,10 +1,8 @@
 package com.yassir.scholary.controllers.impl;
 
 import com.yassir.scholary.dtos.UserDto;
-import com.yassir.scholary.dtos.mappers.Model2DtoMapper;
 import com.yassir.scholary.services.UserService;
 import com.yassir.scholary.utils.LogUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -18,9 +16,6 @@ public class UserControllerImpl implements com.yassir.scholary.controllers.UserC
     private UserService userService;
     private RestTemplate restTemplate;
 
-    @Autowired
-    Model2DtoMapper mapper;
-
     public UserControllerImpl(UserService userService) {
         restTemplate = new RestTemplate();
         this.userService = userService;
@@ -33,33 +28,35 @@ public class UserControllerImpl implements com.yassir.scholary.controllers.UserC
 
     @Override
     @GetMapping("/users")
-    public List<UserDto> findAllUsers() {
-        return mapper.toUserDtoList(userService.findAllUsers());
+    public List<UserDto> findAll() {
+        return userService.findAll();
     }
 
     @Override
     @GetMapping("/users/{id}")
-    public UserDto findUserById(@PathVariable("id") Long id) {
-        return mapper.toUserDto(userService.findUserById(id));
+    public UserDto findById(@PathVariable("id") Long id) {
+        return userService.findById(id);
     }
 
     @Override
     @PostMapping(value = "/users")
-    public UserDto createUser(@RequestBody UserDto userDto) {
-        return mapper.toUserDto(userService.createUser(mapper.toUserModel(userDto)));
+    public ResponseEntity create(@RequestBody UserDto userDto) {
+        userService.create(userDto);
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully created.");
     }
 
     @Override
     @PutMapping(value = "/users/{id}")
-    public UserDto updateUser(@RequestBody UserDto userDto, @PathVariable("id") Long id) {
-        return mapper.toUserDto(userService.updateUser(mapper.toUserModel(userDto), id));
+    public ResponseEntity update(@RequestBody UserDto userDto, @PathVariable("id") Long id) {
+        userService.update(userDto, id);
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully updated.");
     }
 
     @Override
     @DeleteMapping(value = "/users/{id}")
-    public ResponseEntity deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).body("Successfuly deleted.");
+    public ResponseEntity delete(@PathVariable("id") Long id) {
+        userService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted.");
     }
 
     @Override
