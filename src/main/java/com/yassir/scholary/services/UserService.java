@@ -17,4 +17,6 @@ public interface UserService {
     UserModel deleteUser(Long id);
 
     void generateDummyData(int x);
+
+    void deleteAll();
 }

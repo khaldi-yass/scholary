@@ -81,7 +81,7 @@ class UserModel implements Serializable {
     @Column(name = "last_login")
     private LocalDate lastLogin;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private MediaModel profilePicture;
 

@@ -1,8 +1,11 @@
 package com.yassir.scholary.controllers;
 
+import com.yassir.scholary.dtos.UserDto;
+import com.yassir.scholary.dtos.mappers.Model2DtoMapper;
 import com.yassir.scholary.models.UserModel;
 import com.yassir.scholary.services.UserService;
 import com.yassir.scholary.utils.LogUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +19,9 @@ public class UserController {
     private UserService userService;
     private RestTemplate restTemplate;
 
+    @Autowired
+    Model2DtoMapper mapper;
+
     public UserController(UserService userService) {
         restTemplate = new RestTemplate();
         this.userService = userService;
@@ -23,7 +29,7 @@ public class UserController {
 
     @GetMapping("/")
     public String rootPath() {
-        return "<h1>Hello World</h1>";
+        return "Hello World";
     }
 
     @GetMapping("/users")
@@ -32,8 +38,8 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Object findUserById(@PathVariable("id") Long id) {
-        return userService.findUserById(id);
+    public UserDto findUserById(@PathVariable("id") Long id) {
+        return mapper.toUserDto(userService.findUserById(id));
     }
 
     @PostMapping(value = "/users")
