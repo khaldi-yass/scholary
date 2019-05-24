@@ -20,4 +20,5 @@ public interface UserService {
 
     void deleteAll();
 
+    List<Long> getAvailableUserIds();
 }

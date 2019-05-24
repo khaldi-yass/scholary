@@ -91,4 +91,10 @@ public class UserServiceImpl implements UserService {
         userDao.deleteAll();
     }
 
+    @Override
+    public List<Long> getAvailableUserIds() {
+        List<Long> ids = new ArrayList<>();
+        userDao.findAll().forEach(user -> ids.add(user.getId()));
+        return ids;
+    }
 }
