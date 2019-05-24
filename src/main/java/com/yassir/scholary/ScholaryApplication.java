@@ -30,7 +30,6 @@ public class ScholaryApplication implements ApplicationRunner {
 
     private void initialize() {
         userService.deleteAll();
-        userService.resetId();
-        userService.generateDummyData(10);
+        userService.generateDummyData(5);
     }
 }

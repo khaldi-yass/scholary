@@ -33,12 +33,6 @@ abstract class ItemModel implements Serializable {
     @Column(name = "last_modified_date")
     protected LocalDate lastModifiedDate;
 
-    @Column(name = "description")
-    protected String description;
-
-    @Column(name = "activated")
-    protected Boolean activated;
-
     @PodamExclude
     @ManyToOne
     @JsonIgnoreProperties("")

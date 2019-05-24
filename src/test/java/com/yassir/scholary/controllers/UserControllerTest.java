@@ -37,7 +37,7 @@ public class UserControllerTest extends AbstractWebApplicationTest {
     @Test
     public void shouldCreateUser() throws Exception {
         PodamFactory podamFactory = new PodamFactoryImpl();
-        UserModel user = podamFactory.manufacturePojo(UserModel.class);
+        UserDto user = mapper.toUserDto(podamFactory.manufacturePojo(UserModel.class));
         String jsonInput = toJson(user);
         MvcResult
                 result =

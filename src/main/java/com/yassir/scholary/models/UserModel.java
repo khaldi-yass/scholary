@@ -2,6 +2,7 @@ package com.yassir.scholary.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.yassir.scholary.models.enumeration.City;
+import com.yassir.scholary.models.enumeration.Gender;
 import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -51,9 +52,9 @@ class UserModel extends ItemModel {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @NotNull
-    @Column(name = "gender", nullable = false)
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    private Gender gender;
 
     @NotNull
     @Column(name = "birth_date", nullable = false)

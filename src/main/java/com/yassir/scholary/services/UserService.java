@@ -20,5 +20,4 @@ public interface UserService {
 
     void deleteAll();
 
-    void resetId();
 }
