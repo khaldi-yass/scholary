@@ -7,7 +7,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -16,14 +15,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "employee")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data
-class EmployeeModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class EmployeeModel extends UserModel {
 
     @Column(name = "social_security_number")
     private String socialSecurityNumber;
@@ -31,10 +25,6 @@ class EmployeeModel implements Serializable {
     @NotNull
     @Column(name = "hire_date", nullable = false)
     private LocalDate hireDate;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private UserModel pUserModel;
 
     @ManyToOne
     @JsonIgnoreProperties("")

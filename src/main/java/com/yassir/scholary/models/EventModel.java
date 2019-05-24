@@ -5,7 +5,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -14,23 +13,14 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "event")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data
-class EventModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class EventModel extends ItemModel {
 
     @Column(name = "start_date_time")
     private LocalDate startDateTime;
 
     @Column(name = "end_date_time")
     private LocalDate endDateTime;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
 
 }

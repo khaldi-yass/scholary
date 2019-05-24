@@ -5,7 +5,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,13 +16,7 @@ import java.util.Set;
 @Table(name = "grade_book")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class GradeBookModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class GradeBookModel extends ItemModel {
 
     @Column(name = "year_start")
     private LocalDate yearStart;
@@ -49,10 +42,6 @@ class GradeBookModel implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private StudentModel studentModel;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
 
     @OneToMany(mappedBy = "gradeBookModel")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

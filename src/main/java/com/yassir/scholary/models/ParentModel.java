@@ -5,8 +5,10 @@ import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,23 +19,13 @@ import java.util.Set;
 @Table(name = "parent")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class ParentModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class ParentModel extends UserModel {
 
     @Column(name = "jhi_work")
     private String work;
 
     @Column(name = "work_place")
     private String workPlace;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private UserModel pUserModel;
 
     @ManyToMany(mappedBy = "parentModels")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

@@ -7,7 +7,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,13 +17,7 @@ import java.util.Set;
 @Table(name = "class_room")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class ClassRoomModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class ClassRoomModel extends ItemModel {
 
     @NotNull
     @Column(name = "name", nullable = false)
@@ -37,13 +30,10 @@ class ClassRoomModel implements Serializable {
     @Column(name = "jhi_zone")
     private String zone;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
-
     @OneToMany(mappedBy = "classRoomModel")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ClassEventModel> classEventModels = new HashSet<>();
+
     @ManyToMany(mappedBy = "classRoomModels")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore

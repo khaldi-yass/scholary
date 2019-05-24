@@ -4,25 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import uk.co.jemos.podam.common.PodamExclude;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * A MediaModel.
  */
 @Entity
-@Table(name = "media")
+@Table(name = "medias")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class MediaModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class MediaModel extends ItemModel {
 
     @NotNull
     @Column(name = "name", nullable = false)
@@ -40,20 +37,17 @@ class MediaModel implements Serializable {
     @Column(name = "real_file_name")
     private String realFileName;
 
-    @Column(name = "jhi_size")
+    @Column(name = "size")
     private Long size;
 
     @Column(name = "keywords")
     private String keywords;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
+    private String mimeType;
 
-    @ManyToOne
-    @JsonIgnoreProperties("")
-    private MimeTypeModel mimeTypeModel;
+    private String fileExtension;
 
+    @PodamExclude
     @ManyToOne
     @JsonIgnoreProperties("")
     private UserModel owner;

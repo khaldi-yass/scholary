@@ -19,4 +19,6 @@ public interface UserService {
     void generateDummyData(int x);
 
     void deleteAll();
+
+    void resetId();
 }

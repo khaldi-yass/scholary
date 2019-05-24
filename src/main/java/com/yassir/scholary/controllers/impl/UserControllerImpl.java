@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class UserControllerImpl implements com.yassir.scholary.controllers.UserController {
 
     private UserService userService;
@@ -22,6 +23,7 @@ public class UserControllerImpl implements com.yassir.scholary.controllers.UserC
     }
 
     @Override
+    @GetMapping("/")
     public String rootPath() {
         return "<h1>Hello World</h1>";
     }
@@ -42,7 +44,7 @@ public class UserControllerImpl implements com.yassir.scholary.controllers.UserC
     @PostMapping(value = "/users")
     public ResponseEntity create(@RequestBody UserDto userDto) {
         userService.create(userDto);
-        return ResponseEntity.status(HttpStatus.OK).body("Successfully created.");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Successfully created.");
     }
 
     @Override

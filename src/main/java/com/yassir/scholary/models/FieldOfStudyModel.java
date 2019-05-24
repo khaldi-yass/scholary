@@ -5,9 +5,11 @@ import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * A FieldOfStudyModel.
@@ -16,21 +18,11 @@ import java.io.Serializable;
 @Table(name = "field_of_study")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class FieldOfStudyModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class FieldOfStudyModel extends ItemModel {
 
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
 
     @ManyToOne
     @JsonIgnoreProperties("fieldsOfStudies")

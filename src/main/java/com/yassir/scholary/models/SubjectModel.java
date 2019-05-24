@@ -7,7 +7,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,13 +18,7 @@ import java.util.Set;
 @Table(name = "subject")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class SubjectModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class SubjectModel extends ItemModel {
 
     @NotNull
     @Column(name = "name", nullable = false)
@@ -44,10 +37,6 @@ class SubjectModel implements Serializable {
 
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
 
     @OneToMany(mappedBy = "subjectModel")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

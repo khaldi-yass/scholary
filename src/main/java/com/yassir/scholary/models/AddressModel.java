@@ -8,22 +8,15 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * A AddressModel.
  */
 @Entity
-@Table(name = "address")
+@Table(name = "addresses")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class AddressModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class AddressModel extends ItemModel {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "country")
@@ -53,12 +46,9 @@ class AddressModel implements Serializable {
     private Integer floorNumber;
 
     @Column(name = "appartment_number")
-    private Integer appartmentNumber;
+    private Integer apartmentNumber;
 
     @Column(name = "zip_code")
     private Integer zipCode;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
 }

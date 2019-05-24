@@ -5,8 +5,9 @@ import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * A ClassEventModel.
@@ -15,17 +16,7 @@ import java.io.Serializable;
 @Table(name = "class_event")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class ClassEventModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pEvent;
+class ClassEventModel extends EventModel {
 
     @ManyToOne
     @JsonIgnoreProperties("")

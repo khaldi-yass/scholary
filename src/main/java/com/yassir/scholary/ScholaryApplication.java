@@ -25,7 +25,12 @@ public class ScholaryApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         LogUtils.info(getClass(), "Application started in " + applicationEnvironment);
+        //initialize();
+    }
+
+    private void initialize() {
         userService.deleteAll();
-        userService.generateDummyData(5);
+        userService.resetId();
+        userService.generateDummyData(10);
     }
 }

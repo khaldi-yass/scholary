@@ -5,13 +5,12 @@ import com.yassir.scholary.models.enumeration.City;
 import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import uk.co.jemos.podam.common.PodamCollection;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * A UserModel.
@@ -19,14 +18,9 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data
-class UserModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class UserModel extends ItemModel {
 
     @NotNull
     @Column(name = "username", nullable = false)
@@ -76,7 +70,7 @@ class UserModel implements Serializable {
     private LocalDate loginExpirationDate;
 
     @Column(name = "login_enabled")
-    private Boolean loginEnabled;
+    private boolean loginEnabled;
 
     @Column(name = "last_login")
     private LocalDate lastLogin;
@@ -85,41 +79,20 @@ class UserModel implements Serializable {
     @JoinColumn(unique = true)
     private MediaModel profilePicture;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
-
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("")
-    private AddressModel primaryAddressModel;
+    private AddressModel primaryAddress;
 
-    @ManyToMany
+    @PodamCollection(nbrElements = 3)
+    @ManyToMany(cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "user_user_groups", joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "user_groups_id", referencedColumnName = "id"))
-    private Set<UserGroupModel> userGroupModels = new HashSet<>();
+    private List<UserGroupModel> userGroups;
 
-    @ManyToMany
+    @PodamCollection(nbrElements = 3)
+    @ManyToMany(cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "user_addresses", joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "addresses_id", referencedColumnName = "id"))
-    private Set<AddressModel> addressModels = new HashSet<>();
-
-    public UserModel() {
-    }
-
-    public UserModel(@NotNull String username,
-                     @NotNull String password,
-                     @NotNull String primaryEmail,
-                     @NotNull String firstName,
-                     @NotNull String lastName,
-                     @NotNull String gender,
-                     @NotNull LocalDate birthDate) {
-        this.username = username;
-        this.password = password;
-        this.primaryEmail = primaryEmail;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.birthDate = birthDate;
-    }
+    private List<AddressModel> otherAddresses;
 
 }

@@ -5,8 +5,10 @@ import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * A AttendanceModel.
@@ -15,23 +17,13 @@ import java.io.Serializable;
 @Table(name = "attendance")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class AttendanceModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class AttendanceModel extends ItemModel {
 
     @Column(name = "attended")
     private Boolean attended;
 
     @Column(name = "remarks")
     private String remarks;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
 
     @ManyToOne
     @JsonIgnoreProperties("")

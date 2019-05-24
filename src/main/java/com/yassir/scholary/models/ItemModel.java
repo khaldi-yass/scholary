@@ -4,59 +4,61 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import uk.co.jemos.podam.common.PodamExclude;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * A ItemModel.
- */
 @Entity
-@Table(name = "item")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public @Data
-class ItemModel implements Serializable {
+abstract class ItemModel implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
 
+    @PodamExclude
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    protected Long id;
 
-    @Column(name = "jhi_label")
-    private String label;
+    @Column(name = "label")
+    protected String label;
 
     @Column(name = "created_date")
-    private LocalDate createdDate;
+    protected LocalDate createdDate;
 
     @Column(name = "last_modified_date")
-    private LocalDate lastModifiedDate;
+    protected LocalDate lastModifiedDate;
 
     @Column(name = "description")
-    private String description;
+    protected String description;
 
     @Column(name = "activated")
-    private Boolean activated;
+    protected Boolean activated;
 
+    @PodamExclude
     @ManyToOne
     @JsonIgnoreProperties("")
-    private UserModel createdBy;
+    protected UserModel createdBy;
 
+    @PodamExclude
     @ManyToOne
     @JsonIgnoreProperties("")
-    private UserModel lastModifiedBy;
+    protected UserModel lastModifiedBy;
 
+    @PodamExclude
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "item_readable_by_usergroups", joinColumns = @JoinColumn(name = "items_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "readable_by_usergroups_id", referencedColumnName = "id"))
-    private Set<UserGroupModel> readableByUsergroups = new HashSet<>();
+    @JoinTable(name = "item_readable_by_user_groups", joinColumns = @JoinColumn(name = "items_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "readable_by_usergroups_id", referencedColumnName = "id"))
+    protected List<UserGroupModel> readableByUserGroups = new ArrayList<>();
 
+    @PodamExclude
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "item_writeable_by_usergroups", joinColumns = @JoinColumn(name = "items_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "writeable_by_usergroups_id", referencedColumnName = "id"))
-    private Set<UserGroupModel> writeableByUsergroups = new HashSet<>();
+    @JoinTable(name = "item_writable_by_user_groups", joinColumns = @JoinColumn(name = "items_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "writeable_by_usergroups_id", referencedColumnName = "id"))
+    protected List<UserGroupModel> writableByUserGroups = new ArrayList<>();
 
 }

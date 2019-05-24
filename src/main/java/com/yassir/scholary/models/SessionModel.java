@@ -5,8 +5,10 @@ import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
 /**
@@ -16,13 +18,7 @@ import java.time.LocalDate;
 @Table(name = "session")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class SessionModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class SessionModel extends ItemModel {
 
     @Column(name = "login_date")
     private LocalDate loginDate;
@@ -35,10 +31,6 @@ class SessionModel implements Serializable {
 
     @Column(name = "user_agent")
     private String userAgent;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
 
     @ManyToOne
     @JsonIgnoreProperties("")

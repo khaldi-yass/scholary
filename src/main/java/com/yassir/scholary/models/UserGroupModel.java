@@ -4,9 +4,10 @@ import lombok.Data;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * A UserGroupModel.
@@ -15,13 +16,7 @@ import java.io.Serializable;
 @Table(name = "user_group")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public @Data
-class UserGroupModel implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+class UserGroupModel extends ItemModel {
 
     @NotNull
     @Column(name = "name", nullable = false)
@@ -30,9 +25,5 @@ class UserGroupModel implements Serializable {
     @NotNull
     @Column(name = "description", nullable = false)
     private String description;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private ItemModel pItemModel;
 
 }

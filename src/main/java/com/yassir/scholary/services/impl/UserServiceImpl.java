@@ -1,20 +1,21 @@
 package com.yassir.scholary.services.impl;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.yassir.scholary.daos.UserDao;
 import com.yassir.scholary.dtos.UserDto;
 import com.yassir.scholary.dtos.mappers.Model2DtoMapper;
 import com.yassir.scholary.exceptions.IllegalOperationException;
 import com.yassir.scholary.exceptions.NotFoundException;
-import com.yassir.scholary.models.MediaModel;
 import com.yassir.scholary.models.UserModel;
 import com.yassir.scholary.services.UserService;
 import com.yassir.scholary.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.text.MessageFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -72,29 +73,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void generateDummyData(int x) {
+        Stopwatch timer = Stopwatch.createStarted();
         List<UserModel> dummyUsers = new ArrayList<>();
+        PodamFactory podamFactory = new PodamFactoryImpl();
         UserModel user;
         for (int i = 1; i <= x; i++) {
-            user =
-                    new UserModel("UserName_" + i,
-                            "passwd",
-                            "user_" + i + "@mail.com",
-                            "John",
-                            "Doe",
-                            "Male",
-                            LocalDate.of(1995, 1, 1));
-            MediaModel picture = new MediaModel();
-            picture.setName("Image1");
-            picture.setUrl("localhost/pictures/image1.png");
-            user.setProfilePicture(picture);
+            user = podamFactory.manufacturePojo(UserModel.class);
             dummyUsers.add(user);
         }
         userDao.saveAll(dummyUsers);
+        LogUtils.info(getClass(), MessageFormat.format("Generation of {0} users took {1}.", x, timer.stop()));
     }
 
     @Override
     public void deleteAll() {
         LogUtils.warn(getClass(), "All Users will be cleared from database");
         userDao.deleteAll();
+    }
+
+    @Override
+    public void resetId() {
+        userDao.resetIdGenerator();
     }
 }
