@@ -9,9 +9,6 @@ import java.util.List;
 @RequestMapping("/api")
 public interface UserController {
 
-    @GetMapping("/")
-    String rootPath();
-
     @GetMapping("/users")
     List<UserDto> findAll();
 

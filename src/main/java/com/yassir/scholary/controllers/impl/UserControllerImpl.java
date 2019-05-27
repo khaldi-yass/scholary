@@ -23,12 +23,6 @@ public class UserControllerImpl implements com.yassir.scholary.controllers.UserC
     }
 
     @Override
-    @GetMapping("/")
-    public String rootPath() {
-        return "<h1>Hello World</h1>";
-    }
-
-    @Override
     @GetMapping("/users")
     public List<UserDto> findAll() {
         return userService.findAll();

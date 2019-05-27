@@ -9,6 +9,7 @@ import com.yassir.scholary.models.MediaModel;
 import com.yassir.scholary.models.UserGroupModel;
 import com.yassir.scholary.models.UserModel;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface Model2DtoMapper {
 
     UserModel toUserModel(UserDto source);
 
+    @Mapping(target = "seq", source = "id")
     UserDto toUserDto(UserModel source);
 
     List<UserModel> toUserModelList(List<UserDto> source);

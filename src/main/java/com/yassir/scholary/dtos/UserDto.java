@@ -7,6 +7,7 @@ import java.util.List;
 public @Data
 class UserDto {
 
+    private String seq;
     private String username;
     private String password;
     private String firstName;

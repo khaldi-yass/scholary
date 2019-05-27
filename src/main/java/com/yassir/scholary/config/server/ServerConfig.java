@@ -1,4 +1,4 @@
-package com.yassir.scholary.config;
+package com.yassir.scholary.config.server;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;

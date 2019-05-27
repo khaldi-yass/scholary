@@ -1,4 +1,4 @@
-package com.yassir.scholary.config;
+package com.yassir.scholary.config.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
