@@ -2,6 +2,7 @@ package com.yassir.scholary.reporting;
 
 import com.yassir.scholary.reporting.datasources.CustomDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,16 @@ public class ReportingService {
         parameters.put("ReportTitle", "Address Report");
         parameters.put("DataFile", "CustomDataSource.java");
         return JasperFillManager.fillReport(jasperRes.getFile().getAbsolutePath(), parameters, new CustomDataSource());
+    }
 
+    public byte[] generatePDF() throws IOException, JRException {
+        //Preparing parameters
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("ReportTitle", "Address Report");
+        parameters.put("DataFile", "CustomDataSource.java");
+        JasperPrint
+                jasperPrint =
+                JasperFillManager.fillReport(jasperRes.getFile().getAbsolutePath(), parameters, new CustomDataSource());
+        return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 }
