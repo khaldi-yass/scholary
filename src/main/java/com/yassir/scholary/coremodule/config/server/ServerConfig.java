@@ -12,6 +12,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServerConfig {
 
+    /**
+     * Override the default servlet container in order to use ours
+     * configured with a redirection from http to https
+     *
+     * @return
+     */
     @Bean
     public ServletWebServerFactory servletContainer() {
         TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {

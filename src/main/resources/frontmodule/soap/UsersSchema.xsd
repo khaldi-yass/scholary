@@ -1,23 +1,50 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-           targetNamespace="http://scholary.yassir.com/sco/schemas"
-           xmlns:sco="http://scholary.yassir.com/sco/schemas">
+           targetNamespace="http://scholary.yassir.com/frontmodule/soap/userSchema"
+           xmlns:sco="http://scholary.yassir.com/frontmodule/soap/userSchema">
 
     <xs:element name="UserRequest">
         <xs:complexType>
-            <xs:all>
-                <xs:element name="username" type="xs:string"/>
-                <xs:element name="password" type="xs:string"/>
-                <xs:element name="firstname" type="xs:string"/>
-                <xs:element name="lastname" type="xs:string"/>
-                <xs:element name="gender" type="xs:string"/>
-                <xs:element name="birthdate" type="xs:NMTOKEN"/>
-                <xs:element name="birthCity" type="xs:string"/>
-                <xs:element name="primaryAddress" type="sco:AddressType"/>
-                <xs:element name="profilePicture" type="sco:PhotoType"/>
-            </xs:all>
-            <xs:attribute name="seq" type="xs:string"/>
+            <xs:attribute name="id" type="xs:long"/>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="UserResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="sco:UserType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="AllUsersRequest">
+        <xs:complexType>
+            <xs:sequence/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="AllUsersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="user" type="sco:UserType" minOccurs="0"
+                            maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="UserType">
+        <xs:all>
+            <xs:element name="username" type="xs:string"/>
+            <xs:element name="password" type="xs:string"/>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="gender" type="xs:string"/>
+            <xs:element name="birthDate" type="xs:NMTOKEN"/>
+            <xs:element name="birthCity" type="xs:string"/>
+            <xs:element name="primaryAddress" type="sco:AddressType"/>
+            <xs:element name="profilePicture" type="sco:PhotoType"/>
+        </xs:all>
+        <xs:attribute name="seq" type="xs:long"/>
+    </xs:complexType>
 
     <xs:complexType name="AddressType">
         <xs:sequence>
@@ -25,12 +52,12 @@
             <xs:element name="region" type="xs:string"/>
             <xs:element name="city" type="xs:string"/>
             <xs:element name="district" type="xs:string"/>
-            <xs:element name="streetname" type="xs:string"/>
-            <xs:element name="streetnumber" type="xs:integer"/>
-            <xs:element name="housenumber" type="xs:integer"/>
-            <xs:element name="floornumber" type="xs:integer"/>
-            <xs:element name="apartmentnumber" type="xs:integer"/>
-            <xs:element name="zipcode" type="xs:integer"/>
+            <xs:element name="streetName" type="xs:string"/>
+            <xs:element name="streetNumber" type="xs:integer"/>
+            <xs:element name="houseNumber" type="xs:integer"/>
+            <xs:element name="floorNumber" type="xs:integer"/>
+            <xs:element name="apartmentNumber" type="xs:integer"/>
+            <xs:element name="zipCode" type="xs:integer"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -38,10 +65,10 @@
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="url" type="xs:string"/>
-            <xs:element name="realfilenae" type="xs:string"/>
+            <xs:element name="realFileName" type="xs:string"/>
             <xs:element name="size" type="xs:long"/>
             <xs:element name="keywords" type="xs:string"/>
-            <xs:element name="fileextension" type="xs:string"/>
+            <xs:element name="fileExtension" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

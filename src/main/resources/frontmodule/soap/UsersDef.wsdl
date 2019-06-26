@@ -1,0 +1,116 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://scholary.yassir.com/frontmodule/soap/userSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://scholary.yassir.com/frontmodule/soap/userSchema" targetNamespace="http://scholary.yassir.com/frontmodule/soap/userSchema">
+    <wsdl:types>
+        <xs:schema xmlns:sco="http://scholary.yassir.com/frontmodule/soap/userSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://scholary.yassir.com/frontmodule/soap/userSchema">
+            <xs:element name="UserRequest">
+                <xs:complexType>
+                    <xs:attribute name="id" type="xs:long"/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="UserResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="user" type="sco:UserType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="AllUsersRequest">
+                <xs:complexType>
+                    <xs:sequence/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="AllUsersResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="user" type="sco:UserType"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:complexType name="UserType">
+                <xs:all>
+                    <xs:element name="username" type="xs:string"/>
+                    <xs:element name="password" type="xs:string"/>
+                    <xs:element name="firstName" type="xs:string"/>
+                    <xs:element name="lastName" type="xs:string"/>
+                    <xs:element name="gender" type="xs:string"/>
+                    <xs:element name="birthDate" type="xs:NMTOKEN"/>
+                    <xs:element name="birthCity" type="xs:string"/>
+                    <xs:element name="primaryAddress" type="sco:AddressType"/>
+                    <xs:element name="profilePicture" type="sco:PhotoType"/>
+                </xs:all>
+                <xs:attribute name="seq" type="xs:long"/>
+            </xs:complexType>
+            <xs:complexType name="AddressType">
+                <xs:sequence>
+                    <xs:element name="country" type="xs:string"/>
+                    <xs:element name="region" type="xs:string"/>
+                    <xs:element name="city" type="xs:string"/>
+                    <xs:element name="district" type="xs:string"/>
+                    <xs:element name="streetName" type="xs:string"/>
+                    <xs:element name="streetNumber" type="xs:integer"/>
+                    <xs:element name="houseNumber" type="xs:integer"/>
+                    <xs:element name="floorNumber" type="xs:integer"/>
+                    <xs:element name="apartmentNumber" type="xs:integer"/>
+                    <xs:element name="zipCode" type="xs:integer"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PhotoType">
+                <xs:sequence>
+                    <xs:element name="name" type="xs:string"/>
+                    <xs:element name="url" type="xs:string"/>
+                    <xs:element name="realFileName" type="xs:string"/>
+                    <xs:element name="size" type="xs:long"/>
+                    <xs:element name="keywords" type="xs:string"/>
+                    <xs:element name="fileExtension" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="UserRequest">
+        <wsdl:part element="tns:UserRequest" name="UserRequest"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="AllUsersRequest">
+        <wsdl:part element="tns:AllUsersRequest" name="AllUsersRequest"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="AllUsersResponse">
+        <wsdl:part element="tns:AllUsersResponse" name="AllUsersResponse"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="UserResponse">
+        <wsdl:part element="tns:UserResponse" name="UserResponse"> </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="userWSPort">
+        <wsdl:operation name="User">
+            <wsdl:input message="tns:UserRequest" name="UserRequest"> </wsdl:input>
+            <wsdl:output message="tns:UserResponse" name="UserResponse"> </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="AllUsers">
+            <wsdl:input message="tns:AllUsersRequest" name="AllUsersRequest"> </wsdl:input>
+            <wsdl:output message="tns:AllUsersResponse" name="AllUsersResponse"> </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="userWSPortSoap11" type="tns:userWSPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="User">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="UserRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="UserResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="AllUsers">
+            <soap:operation soapAction=""/>
+            <wsdl:input name="AllUsersRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="AllUsersResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="userWSPortService">
+        <wsdl:port binding="tns:userWSPortSoap11" name="userWSPortSoap11">
+            <soap:address location="https://localhost:443/ws"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
