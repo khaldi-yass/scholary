@@ -2,7 +2,7 @@ package com.yassir.scholary;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yassir.scholary.dtos.mappers.Model2DtoMapper;
+import com.yassir.scholary.coremodule.dtos.mappers.Model2DtoMapper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,7 +1,7 @@
 package com.yassir.scholary;
 
-import com.yassir.scholary.services.UserService;
-import com.yassir.scholary.utils.LogUtils;
+import com.yassir.scholary.coremodule.services.UserService;
+import com.yassir.scholary.coremodule.utils.LogUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -27,7 +27,7 @@ public class ScholaryApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         LogUtils.info(getClass(), "Application started in " + applicationEnvironment);
-        //initialize();
+        initialize();
     }
 
     private void initialize() {
